@@ -92,32 +92,6 @@ public class CatChildFilterButton extends Button {
     }
 
     /**
-     * 设置分类列表的下拉按钮单击事件监听
-     * @param groupName
-     * @param childList
-     */
-    public void setOnCatFilterClickListener(final String groupName,
-                                            final ArrayList<CategoryChildBean> childList){
-        mbtnTop.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mbtnTop.setTextColor(Color.WHITE);
-                mbtnTop.setText(groupName);
-                if(mExpandOff){//若分类列表的窗口未打开，则弹出窗口
-                    mAdapter=new CatFilterAdapter(mContext, childList);
-                    mgvCategory.setAdapter(mAdapter);
-                    initPopupWindow();
-                }else{//否则，关闭窗口
-                    if(mPopupWindow.isShowing()){
-                        mPopupWindow.dismiss();
-                    }
-                }
-                setBtnTopArrow();
-            }
-        });
-    }
-
-    /**
      * 显示分类列表的适配器
      * @author yao
      *
@@ -190,5 +164,31 @@ public class CatChildFilterButton extends Button {
             ImageView ivThumb;
             TextView tvChildName;
         }
+    }
+
+    /**
+     * 设置分类列表的下拉按钮单击事件监听
+     * @param groupName
+     * @param childList
+     */
+    public void setOnCatFilterClickListener(final String groupName,
+                                            final ArrayList<CategoryChildBean> childList){
+        mbtnTop.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mbtnTop.setTextColor(Color.WHITE);
+                mbtnTop.setText(groupName);
+                if(mExpandOff){//若分类列表的窗口未打开，则弹出窗口
+                    mAdapter=new CatFilterAdapter(mContext, childList);
+                    mgvCategory.setAdapter(mAdapter);
+                    initPopupWindow();
+                }else{//否则，关闭窗口
+                    if(mPopupWindow.isShowing()){
+                        mPopupWindow.dismiss();
+                    }
+                }
+                setBtnTopArrow();
+            }
+        });
     }
 }

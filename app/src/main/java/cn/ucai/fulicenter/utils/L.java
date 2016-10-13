@@ -6,8 +6,8 @@ import android.util.Log;
  * Created by clawpo on 16/9/20.
  */
 public class L {
-    private static final String TAG = "fulicenter";
     public static boolean isDebug = true;
+    private static final String TAG = "fulicenter";
 
     public static void i(String msg){
         if(isDebug) {

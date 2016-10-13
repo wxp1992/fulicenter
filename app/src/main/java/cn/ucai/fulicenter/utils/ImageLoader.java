@@ -30,18 +30,44 @@ public class ImageLoader {
     private static final int DOWNLOAD_ERROR=1;
 
     private static OkHttpClient mOkHttpClient;
+    /** mHandler不能单例，否则一个mHandler不能准确地处理多个mBean*/
+    private Handler mHandler;
     private static LruCache<String,Bitmap> mCaches;
-    private static String mTag;
     ImageBean mBean;
 
     /** RecyclerView、listView、GridView等容器*/
     ViewGroup mParentLayout;
-    /**ListView、RecyclerView是否在拖拽中，true：拖拽中*/
-    boolean mIsDragging;
-    /** mHandler不能单例，否则一个mHandler不能准确地处理多个mBean*/
-    private Handler mHandler;
+    private static String mTag;
     /** *缺省图片*/
     private int mDefaultPicId;
+    /**ListView、RecyclerView是否在拖拽中，true：拖拽中*/
+    boolean mIsDragging;
+    public interface OnImageLoadListener {
+        void onSuccess(String url, Bitmap bitmap);
+
+        void onError(String error);
+    }
+
+    private class ImageBean {
+        String url;
+        int width;
+        int height;
+        Bitmap bitmap;
+        OnImageLoadListener listener;
+        String saveFileName;
+        String error;
+        ImageView imageView;
+    }
+
+    /**
+     * 创建ImageLoader对象
+     * @param baseUrl:服务端根地址
+     * @return
+     */
+    public static ImageLoader build(String baseUrl) {
+        return new ImageLoader(baseUrl);
+    }
+
     private ImageLoader(String baseUrl) {
         mBean=new ImageBean();
         mBean.url=baseUrl;
@@ -57,41 +83,6 @@ public class ImageLoader {
         if (mCaches == null) {
             initCaches();
         }
-    }
-
-    /**
-     * 创建ImageLoader对象
-     * @param baseUrl:服务端根地址
-     * @return
-     */
-    public static ImageLoader build(String baseUrl) {
-        return new ImageLoader(baseUrl);
-    }
-
-    /**
-     * 释放ImageLoader类的静态对象
-     */
-    public static void release() {
-        if (mOkHttpClient != null) {
-            mOkHttpClient=null;
-            mCaches=null;
-        }
-    }
-
-    public static void downloadImg(Context context,ImageView imageView,String thumb){
-        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,true);
-    }
-
-    public static void downloadImg(Context context,ImageView imageView,String thumb,boolean isDragging){
-        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,isDragging);
-    }
-
-    public static void setImage(String url,Context context,ImageView imageView,boolean isDragging){
-        ImageLoader.build(url)
-                .defaultPicture(R.drawable.nopic)
-                .imageView(imageView)
-                .setDragging(isDragging)
-                .showImage(context);
     }
 
     private void initCaches() {
@@ -342,20 +333,29 @@ public class ImageLoader {
         }
     }
 
-    public interface OnImageLoadListener {
-        void onSuccess(String url, Bitmap bitmap);
-
-        void onError(String error);
+    /**
+     * 释放ImageLoader类的静态对象
+     */
+    public static void release() {
+        if (mOkHttpClient != null) {
+            mOkHttpClient=null;
+            mCaches=null;
+        }
     }
 
-    private class ImageBean {
-        String url;
-        int width;
-        int height;
-        Bitmap bitmap;
-        OnImageLoadListener listener;
-        String saveFileName;
-        String error;
-        ImageView imageView;
+    public static void downloadImg(Context context,ImageView imageView,String thumb){
+        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,true);
+    }
+
+    public static void downloadImg(Context context,ImageView imageView,String thumb,boolean isDragging){
+        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,isDragging);
+    }
+
+    public static void setImage(String url,Context context,ImageView imageView,boolean isDragging){
+        ImageLoader.build(url)
+                .defaultPicture(R.drawable.nopic)
+                .imageView(imageView)
+                .setDragging(isDragging)
+                .showImage(context);
     }
 }

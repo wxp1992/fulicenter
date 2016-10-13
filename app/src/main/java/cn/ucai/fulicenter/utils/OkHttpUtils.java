@@ -39,29 +39,32 @@ import okhttp3.Response;
  *
  */
 public class OkHttpUtils<T> {
+    private static String UTF_8 = "utf-8";
     public static final int RESULT_SUCCESS = 0;
     public static final int RESULT_ERROR = 1;
     public static final int DOWNLOAD_START=2;
     public static final int DOWNLOADING=3;
     public static final int DOWNLOAD_FINISH=4;
-    private static String UTF_8 = "utf-8";
+
     private static OkHttpClient mOkHttpClient;
+    private Handler mHandler;
+
     /**
      * 存放post请求的实体，实体中存放File类型的文件
      */
     RequestBody mFileBody;
     FormBody.Builder mFormBodyBuilder;
     MultipartBody.Builder mMultipartBodyBuilder;
-    OkHttpClient.Builder mBuilder;
-    StringBuilder mUrl;
-    /**
-     * 用于json解析的类对象
-     */
-    Class<T> mClazz;
-    Callback mCallback;
-    private Handler mHandler;
+
+    public interface OnCompleteListener<T> {
+        void onSuccess(T result);
+
+        void onError(String error);
+    }
+
     private OnCompleteListener<T> mListener;
 
+    OkHttpClient.Builder mBuilder;
     /**
      * 构造器，mOkHttpClient必须单例，无论创建多少个OkHttpUtils的实例。
      * 都由mOkHttpClient一个对象处理所有的网络请求。
@@ -83,17 +86,6 @@ public class OkHttpUtils<T> {
             }
         }
         initHandler();
-    }
-
-    /**
-     * 释放mClient的资源
-     */
-    public static void release() {
-        if (mOkHttpClient != null) {
-            //取消所有请求
-            mOkHttpClient.dispatcher().cancelAll();
-            mOkHttpClient=null;
-        }
     }
 
     /**
@@ -150,6 +142,7 @@ public class OkHttpUtils<T> {
         return this;
     }
 
+
     private void initHandler() {
         mHandler = new Handler(FuLiCenterApplication.applicationContext.getMainLooper()) {
             @Override
@@ -196,7 +189,6 @@ public class OkHttpUtils<T> {
         mFileBody = new MultipartBody.Builder().addFormDataPart("filename", file.getName(), fileBody).build();
         return this;
     }
-
     private String guessMimeType(String path) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
         String contentTypeFor = fileNameMap.getContentTypeFor(path);
@@ -216,6 +208,8 @@ public class OkHttpUtils<T> {
         return this;
     }
 
+    StringBuilder mUrl;
+
     public OkHttpUtils<T> url(String url) {
         mUrl = new StringBuilder(url);
         return this;
@@ -228,6 +222,11 @@ public class OkHttpUtils<T> {
 //        Log.e("okhttp","1 murl="+ mUrl.toString());
         return this;
     }
+
+    /**
+     * 用于json解析的类对象
+     */
+    Class<T> mClazz;
 
     /**
      * 设置json解析的目标类对象
@@ -362,6 +361,7 @@ public class OkHttpUtils<T> {
         });
     }
 
+    Callback mCallback;
     /**
      * 在OkHttp创建的工作线程中执行一段代码,
      * @param callback
@@ -469,10 +469,15 @@ public class OkHttpUtils<T> {
         return arrayList;
     }
 
-    public interface OnCompleteListener<T> {
-        void onSuccess(T result);
-
-        void onError(String error);
+    /**
+     * 释放mClient的资源
+     */
+    public static void release() {
+        if (mOkHttpClient != null) {
+            //取消所有请求
+            mOkHttpClient.dispatcher().cancelAll();
+            mOkHttpClient=null;
+        }
     }
 
 }

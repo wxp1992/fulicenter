@@ -25,9 +25,9 @@ import cn.ucai.fulicenter.utils.ImageLoader;
  * @author yao
  */
 public class SlideAutoLoopView extends ViewPager {
+    Context mContext;
     /** 自动播放的标识符*/
     final int ACTION_PLAY=1;
-    Context mContext;
     /**定义FlowIndicator:图片指示器view*/
     FlowIndicator mFlowIndicator;
     /** 轮播图片的适配器*/
@@ -116,6 +116,75 @@ public class SlideAutoLoopView extends ViewPager {
     }
 
     /**
+     * 轮播图片的适配器
+     * @author yao
+     *
+     */
+    class SlideAutoLooopAdapter extends PagerAdapter {
+        Context context;
+        String[] albumImgUrl;
+        int count;
+        ImageLoader imageLoader;
+        
+        public SlideAutoLooopAdapter(Context context, String[] albumImgUrl,
+                                     int count) {
+            super();
+            this.context = context;
+            this.albumImgUrl = albumImgUrl;
+            this.count = count;
+        }
+
+        @Override
+        public int getCount() {//支持无限轮播
+            if(count==0){
+                return 0;
+            }
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            
+            return arg0==arg1;
+        }
+        
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            final ImageView iv=new ImageView(context);
+            LayoutParams params=new LayoutParams();
+            iv.setLayoutParams(params);
+            String imgUrl=albumImgUrl[position%count];
+            String imgName="images/"+imgUrl;
+//            String url= I.DOWNLOAD_ALBUM_IMG_URL+imgUrl;
+//            Bitmap bitmap = imageLoader.displayImage(url, imgName, Utils.px2dp(context, 260), Utils.px2dp(context, 200), new OnImageLoadListener() {
+//                @Override
+//                public void onSuccess(String path, Bitmap bitmap) {
+//                    iv.setImageBitmap(bitmap);
+//                }
+//
+//                @Override
+//                public void error(String errorMsg) {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//            });
+//            if(bitmap==null){
+//                iv.setImageResource(R.drawable.nopic);
+//            }else{
+//                iv.setImageBitmap(bitmap);
+//            }
+            ImageLoader.downloadImg(context,iv,imgUrl,true);
+            container.addView(iv);
+            return iv;
+        }
+        
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View)object);
+        }
+    }
+    
+    /**
      * 开始图片的轮播
      */
     public void startPlayLoop(FlowIndicator flowIndicator, String[] albumImgUrl, int count){
@@ -127,7 +196,7 @@ public class SlideAutoLoopView extends ViewPager {
             this.mAlbumImgUrl=albumImgUrl;
             mAdapter=new SlideAutoLooopAdapter(mContext, mAlbumImgUrl, count);
             this.setAdapter(mAdapter);
-
+            
             try {
                 Field field = ViewPager.class.getDeclaredField("mScroller");
                 field.setAccessible(true);
@@ -168,87 +237,17 @@ public class SlideAutoLoopView extends ViewPager {
     }
     
     /**
-     * 轮播图片的适配器
-     * @author yao
-     *
-     */
-    class SlideAutoLooopAdapter extends PagerAdapter {
-        Context context;
-        String[] albumImgUrl;
-        int count;
-        ImageLoader imageLoader;
-
-        public SlideAutoLooopAdapter(Context context, String[] albumImgUrl,
-                                     int count) {
-            super();
-            this.context = context;
-            this.albumImgUrl = albumImgUrl;
-            this.count = count;
-        }
-
-        @Override
-        public int getCount() {//支持无限轮播
-            if(count==0){
-                return 0;
-            }
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-
-            return arg0==arg1;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            final ImageView iv=new ImageView(context);
-            LayoutParams params=new LayoutParams();
-            iv.setLayoutParams(params);
-            String imgUrl=albumImgUrl[position%count];
-            String imgName="images/"+imgUrl;
-//            String url= I.DOWNLOAD_ALBUM_IMG_URL+imgUrl;
-//            Bitmap bitmap = imageLoader.displayImage(url, imgName, Utils.px2dp(context, 260), Utils.px2dp(context, 200), new OnImageLoadListener() {
-//                @Override
-//                public void onSuccess(String path, Bitmap bitmap) {
-//                    iv.setImageBitmap(bitmap);
-//                }
-//
-//                @Override
-//                public void error(String errorMsg) {
-//                    // TODO Auto-generated method stub
-//
-//                }
-//            });
-//            if(bitmap==null){
-//                iv.setImageResource(R.drawable.nopic);
-//            }else{
-//                iv.setImageBitmap(bitmap);
-//            }
-            ImageLoader.downloadImg(context,iv,imgUrl,true);
-            container.addView(iv);
-            return iv;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
-        }
-    }
-    
-    /**
      * ViewPager列表项滚动的距离、时间间隔的设置
      * @author yao
      *
      */
     class MyScroller extends Scroller {
-        int duration;//图片移动的时间间隔
-
         public MyScroller(Context context, Interpolator interpolator) {
             super(context, interpolator);
             // TODO Auto-generated constructor stub
         }
 
+        int duration;//图片移动的时间间隔
         public void setDuration(int duration){
             this.duration=duration;
         }
