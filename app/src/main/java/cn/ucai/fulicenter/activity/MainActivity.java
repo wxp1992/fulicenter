@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RadioButton;
 
 import cn.ucai.fulicenter.R;
@@ -27,5 +28,20 @@ public class MainActivity extends AppCompatActivity {
         mrbCategory = (RadioButton) findViewById(R.id.rbCategory);
         mrbCart = (RadioButton) findViewById(R.id.rbCart);
         mrbContact = (RadioButton) findViewById(R.id.rbContact);
+    }
+
+    public  void  onCheckedChange(View view) {
+        switch (view.getId()) {
+            case R.id.rbGoodNews:
+                break;
+            case R.id.rbBoutique:
+                break;
+            case R.id.rbCategory:
+                break;
+            case R.id.rbCart:
+                break;
+            case R.id.rbContact:
+                break;
+        }
     }
 }
