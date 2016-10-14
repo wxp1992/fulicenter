@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
         </activity>
+        <!-- 闪屏 -->
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
