@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.utils.MFGT;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int sleepTime = 2000;
@@ -32,8 +33,10 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
                 //进入主页面
-                startActivity(new Intent(SplashActivity.this,MainActivity.class));
-                finish();
+//                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+//                finish();
+                MFGT.gotoMainActivity(SplashActivity.this);
+                MFGT.finish(SplashActivity.this);
             }
         }).start();
     }
