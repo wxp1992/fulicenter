@@ -1,10 +1,12 @@
 package cn.ucai.fulicenter.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/10/13 0013.
  */
 
-public class MessageBean {
+public class MessageBean implements Serializable {
     /**
      * success : true
      * msg : 收藏成功

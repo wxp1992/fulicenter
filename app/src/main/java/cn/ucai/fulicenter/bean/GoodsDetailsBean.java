@@ -1,12 +1,13 @@
 package cn.ucai.fulicenter.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/13 0013.
  */
 
-public class GoodsDetailsBean {
+public class GoodsDetailsBean implements Serializable {
 
 
     /**
