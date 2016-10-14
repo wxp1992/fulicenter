@@ -1,6 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
-import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,25 +19,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                long start =System.currentTimeMillis();
-                long costTime =System.currentTimeMillis()-start;
-                //等待sleeptime时间
-                if (sleepTime-costTime>0){
-                    try {
-                        Thread.sleep(sleepTime-costTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //进入主页面
-//                startActivity(new Intent(SplashActivity.this,MainActivity.class));
-//                finish();
                 MFGT.gotoMainActivity(SplashActivity.this);
-                MFGT.finish(SplashActivity.this);
+                    finish();
             }
-        }).start();
+        },sleepTime);
     }
 }

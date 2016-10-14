@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
-        android:background="#36f">
+        android:background="#36f"
+        >
         <RadioButton
             android:id="@+id/rbGoodNews"
             android:text="新品"
@@ -76,12 +77,12 @@
             android:checked="false"
             />
     </RadioGroup>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpPager"
-        android:layout_above="@id/menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/vpPager"-->
+        <!--android:layout_above="@id/menu"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--&gt;-->
 
-    </android.support.v4.view.ViewPager>
+    <!--</android.support.v4.view.ViewPager>-->
 </RelativeLayout>
