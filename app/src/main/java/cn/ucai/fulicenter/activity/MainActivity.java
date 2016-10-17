@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mrbCategory = (RadioButton) findViewById(R.id.rbCategory);
         mrbCart = (RadioButton) findViewById(R.id.rbCart);
         mrbContact = (RadioButton) findViewById(R.id.rbContact);
+        tvCartHint = (TextView) findViewById(R.id.tvCartHint);
         mrbTabs=new RadioButton[5];
         mrbTabs[0]=mrbNewGood;
         mrbTabs[1]=mrbBoutique;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRadioButtonStatus() {
+        L.e("index:"+index);
         for (int i=0;i<mrbTabs.length;i++){
             if (index==i){
                 mrbTabs[i].setChecked(true);
