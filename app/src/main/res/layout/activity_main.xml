@@ -54,7 +54,6 @@
                 style="@style/menu_item_style"
                 android:button="@null"
                 android:checked="false"
-
                 />
             <TextView
                 android:id="@+id/tvCartHint"

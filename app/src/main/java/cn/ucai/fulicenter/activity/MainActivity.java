@@ -14,6 +14,10 @@ public class MainActivity extends AppCompatActivity {
     RadioButton mrbCategory;
     RadioButton mrbCart;
     RadioButton mrbContact;
+    private int index;
+    RadioButton[] mrbTabs;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +32,42 @@ public class MainActivity extends AppCompatActivity {
         mrbCategory = (RadioButton) findViewById(R.id.rbCategory);
         mrbCart = (RadioButton) findViewById(R.id.rbCart);
         mrbContact = (RadioButton) findViewById(R.id.rbContact);
+        mrbTabs=new RadioButton[5];
+        mrbTabs[0]=mrbNewGood;
+        mrbTabs[1]=mrbBoutique;
+        mrbTabs[2]=mrbCategory;
+        mrbTabs[3]=mrbCart;
+        mrbTabs[4]=mrbContact;
     }
 
     public  void  onCheckedChange(View view) {
         switch (view.getId()) {
             case R.id.rbGoodNews:
+                index=0;
                 break;
             case R.id.rbBoutique:
+                index=1;
                 break;
             case R.id.rbCategory:
+                index=2;
                 break;
             case R.id.rbCart:
+                index=3;
                 break;
             case R.id.rbContact:
+                index=4;
                 break;
+        }
+        setRadioButtonStatus();
+    }
+
+    private void setRadioButtonStatus() {
+        for (int i=0;i<mrbTabs.length;i++){
+            if (index==i){
+                mrbTabs[i].setChecked(true);
+            }else {
+                mrbTabs[i].setChecked(false);
+            }
         }
     }
 }
