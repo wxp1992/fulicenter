@@ -1,34 +1,9 @@
 package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
-import java.util.List;
-
-/**
- * Created by Administrator on 2016/10/13 0013.
- */
+import java.util.Arrays;
 
 public class GoodsDetailsBean implements Serializable {
-
-
-    /**
-     * id : 280
-     * goodsId : 7677
-     * catId : 291
-     * goodsName : 双层分格饭盒 绿色
-     * goodsEnglishName : Monbento
-     * goodsBrief : PP食品级材质，轻巧、易清洗、蠕变性小，不易变形，可置于微波炉加热，可方巾洗碗机清洗。双层色彩可以随意组合，轻巧方便。
-     * shopPrice : ￥253
-     * currencyPrice : ￥293
-     * promotePrice : ￥0
-     * rankPrice : ￥293
-     * isPromote : false
-     * goodsThumb : 201509/thumb_img/7677_thumb_G_1442391216339.png
-     * goodsImg : 201509/thumb_img/7677_thumb_G_1442391216339.png
-     * addTime : 1442419200000
-     * shareUrl : http://m.fulishe.com/item/7677
-     * properties : [{"id":9529,"goodsId":0,"colorId":7,"colorName":"白色","colorCode":"#ffffff","colorImg":"","colorUrl":"https://detail.tmall.com/item.htm?spm=a1z10.5-b.w4011-3609973698.66.6PtkVY&id=520971761592&rn=5ddf7aff64dbe1a24da0eaf7409e3389&abbucket=15&skuId=3104519239252","albums":[{"pid":7677,"imgId":28296,"imgUrl":"201509/goods_img/7677_P_1442391216432.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28297,"imgUrl":"201509/goods_img/7677_P_1442391216215.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28298,"imgUrl":"201509/goods_img/7677_P_1442391216692.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28299,"imgUrl":"201509/goods_img/7677_P_1442391216316.png","thumbUrl":"no_picture.gif"}]}]
-     * promote : false
-     */
 
     private int id;
     private int goodsId;
@@ -40,27 +15,12 @@ public class GoodsDetailsBean implements Serializable {
     private String currencyPrice;
     private String promotePrice;
     private String rankPrice;
-    private boolean isPromote;
     private String goodsThumb;
     private String goodsImg;
     private long addTime;
     private String shareUrl;
-    private boolean promote;
-    /**
-     * id : 9529
-     * goodsId : 0
-     * colorId : 7
-     * colorName : 白色
-     * colorCode : #ffffff
-     * colorImg :
-     * colorUrl : https://detail.tmall.com/item.htm?spm=a1z10.5-b.w4011-3609973698.66.6PtkVY&id=520971761592&rn=5ddf7aff64dbe1a24da0eaf7409e3389&abbucket=15&skuId=3104519239252
-     * albums : [{"pid":7677,"imgId":28296,"imgUrl":"201509/goods_img/7677_P_1442391216432.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28297,"imgUrl":"201509/goods_img/7677_P_1442391216215.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28298,"imgUrl":"201509/goods_img/7677_P_1442391216692.png","thumbUrl":"no_picture.gif"},{"pid":7677,"imgId":28299,"imgUrl":"201509/goods_img/7677_P_1442391216316.png","thumbUrl":"no_picture.gif"}]
-     */
-
-    private List<PropertiesBean> propertiesList;
-
-    public GoodsDetailsBean() {
-    }
+    private boolean isPromote;
+    private PropertiesBean[] properties;
 
     public int getId() {
         return id;
@@ -142,14 +102,6 @@ public class GoodsDetailsBean implements Serializable {
         this.rankPrice = rankPrice;
     }
 
-    public boolean isIsPromote() {
-        return isPromote;
-    }
-
-    public void setIsPromote(boolean isPromote) {
-        this.isPromote = isPromote;
-    }
-
     public String getGoodsThumb() {
         return goodsThumb;
     }
@@ -183,24 +135,24 @@ public class GoodsDetailsBean implements Serializable {
     }
 
     public boolean isPromote() {
-        return promote;
+        return isPromote;
     }
 
     public void setPromote(boolean promote) {
-        this.promote = promote;
+        this.isPromote = promote;
     }
 
-    public List<PropertiesBean> getPropertiesList() {
-        return propertiesList;
+    public PropertiesBean[] getProperties() {
+        return properties;
     }
 
-    public void setPropertiesList(List<PropertiesBean> propertiesList) {
-        this.propertiesList = propertiesList;
+    public void setProperties(PropertiesBean[] properties) {
+        this.properties = properties;
     }
 
     @Override
     public String toString() {
-        return "GoodsDetailsBean{" +
+        return "GoodDetailsBean{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", catId=" + catId +
@@ -211,13 +163,12 @@ public class GoodsDetailsBean implements Serializable {
                 ", currencyPrice='" + currencyPrice + '\'' +
                 ", promotePrice='" + promotePrice + '\'' +
                 ", rankPrice='" + rankPrice + '\'' +
-                ", isPromote=" + isPromote +
                 ", goodsThumb='" + goodsThumb + '\'' +
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
-                ", promote=" + promote +
-                ", propertiesList=" + propertiesList +
+                ", promote=" + isPromote +
+                ", properties=" + Arrays.toString(properties) +
                 '}';
     }
 }

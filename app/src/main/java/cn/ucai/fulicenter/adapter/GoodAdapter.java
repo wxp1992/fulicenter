@@ -17,8 +17,6 @@ import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
-import android.support.v7.widget.RecyclerView.Adapter;
-
 
 /**
  * Created by Administrator on 2016/10/17 0017.

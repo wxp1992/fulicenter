@@ -1,30 +1,14 @@
 package cn.ucai.fulicenter.bean;
 
-import java.io.Serializable;
+public class MessageBean {
 
-/**
- * Created by Administrator on 2016/10/13 0013.
- */
-
-public class MessageBean implements Serializable {
     /**
      * success : true
-     * msg : 收藏成功
+     * msg : 添加收藏成功
      */
 
     private boolean success;
     private String msg;
-
-    @Override
-    public String toString() {
-        return "MessageBean{" +
-                "success=" + success +
-                ", msg='" + msg + '\'' +
-                '}';
-    }
-
-    public MessageBean() {
-    }
 
     public boolean isSuccess() {
         return success;
@@ -40,5 +24,13 @@ public class MessageBean implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                '}';
     }
 }

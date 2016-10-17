@@ -2,10 +2,7 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
-/**
- * Created by Administrator on 2016/10/13 0013.
- */
-public class CollectBean implements Serializable{
+public class CollectBean implements Serializable {
 
     /**
      * id : 7672
@@ -26,9 +23,6 @@ public class CollectBean implements Serializable{
     private String goodsThumb;
     private String goodsImg;
     private long addTime;
-
-    public CollectBean() {
-    }
 
     public int getId() {
         return id;
