@@ -5,7 +5,7 @@
     android:background="@color/list_background">
     <!-- 底部菜单栏-->
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/menu"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -75,6 +75,6 @@
             android:button="@null"
             android:checked="false"
             />
-    </RadioGroup>
+    </LinearLayout>
 
 </RelativeLayout>
