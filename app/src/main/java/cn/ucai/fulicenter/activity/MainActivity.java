@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
+import butterknife.BindView;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.utils.L;
 
@@ -14,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
     RadioButton mrbCategory;
     RadioButton mrbCart;
     RadioButton mrbContact;
+    TextView tvCartHint;
     private int index;
     RadioButton[] mrbTabs;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
