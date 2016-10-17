@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter.utils.L;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvCartHint;
     private int index;
     RadioButton[] mrbTabs;
+    Fragment[] mFragments;
+    NewGoodsFragment mNewGoodsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         L.i("MainActivity onCreate");
         initView();
+      initFragment();
+    }
+
+    private void initFragment() {
+        mFragments = new Fragment[5];
+        mNewGoodsFragment = new NewGoodsFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, mNewGoodsFragment)
+                .show(mNewGoodsFragment)
+                .commit();
     }
 
     private void initView() {
@@ -41,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mrbTabs[2]=mrbCategory;
         mrbTabs[3]=mrbCart;
         mrbTabs[4]=mrbContact;
+
     }
 
     public  void  onCheckedChange(View view) {
