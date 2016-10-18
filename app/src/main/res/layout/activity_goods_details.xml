@@ -9,18 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/main_orange">
-        <ImageView
-            android:id="@+id/ivback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"/>
-        <TextView
-            android:layout_toRightOf="@+id/ivback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="商品详情"
-            android:textSize="25dp"
-            android:layout_centerVertical="true"/>
+        <include layout="@layout/common_head_title"/>
         <ImageView
             android:id="@+id/ivgoodshare"
             android:layout_width="wrap_content"
