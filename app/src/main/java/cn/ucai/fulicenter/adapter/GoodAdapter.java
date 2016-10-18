@@ -120,15 +120,15 @@ public class GoodAdapter extends Adapter {
         @BindView(R.id.item_good_LL)
         LinearLayout itemGoodLL;
 
+        GoodViewHoder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
         @OnClick(R.id.item_good_LL)
         public void onGoodsItemClick() {
             int goodsId = (int) itemGoodLL.getTag();
             mContext.startActivity(new Intent(mContext, GoodsDetailsActivity.class)
-                      .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
-        }
-        GoodViewHoder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+                    .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
         }
     }
 }
