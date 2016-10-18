@@ -2,12 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/good_detail_bg_white">
     <RelativeLayout
         android:id="@+id/layouttitle"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/main_orange">
+        <ImageView
+            android:id="@+id/ivback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"/>
+        <TextView
+            android:layout_toRightOf="@+id/ivback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品详情"
+            android:textSize="25dp"
+            android:layout_centerVertical="true"/>
         <ImageView
             android:id="@+id/ivgoodshare"
             android:layout_width="wrap_content"
@@ -97,6 +110,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                app:count="4"
+                app:focus="0"
+                app:focus_color="@color/good_detaul_flow_indicator_focus"
+                app:normal_color="#a1d1d1d1"
+                app:r="5dp"
+                app:space="3dp"
                  />
         </RelativeLayout>
     </RelativeLayout>
