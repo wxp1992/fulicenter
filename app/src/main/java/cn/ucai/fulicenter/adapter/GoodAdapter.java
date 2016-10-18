@@ -22,6 +22,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
 
@@ -127,8 +128,9 @@ public class GoodAdapter extends Adapter {
         @OnClick(R.id.item_good_LL)
         public void onGoodsItemClick() {
             int goodsId = (int) itemGoodLL.getTag();
-            mContext.startActivity(new Intent(mContext, GoodsDetailsActivity.class)
-                    .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
+            /*mContext.startActivity(new Intent(mContext, GoodsDetailsActivity.class)
+                    .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));*/
+            MFGT.gotoGoodsDetailsActivity(mContext,goodsId);
         }
     }
 }
