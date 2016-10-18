@@ -1,18 +1,25 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -75,17 +82,19 @@ public class GoodAdapter extends Adapter {
             ImageLoader.downloadImg(mContext, vh.ivGoodThumb, goods.getGoodsThumb());
             vh.tvGoodName.setText(goods.getGoodsName());
             vh.tvGoodPrice.setText(goods.getCurrencyPrice());
+            vh.itemGoodLL.setTag(goods.getGoodsId());
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position==getItemCount()-1){
-            return  I.TYPE_FOOTER;
-        }else {
-            return  I.TYPE_ITEM;
+        if (position == getItemCount() - 1) {
+            return I.TYPE_FOOTER;
+        } else {
+            return I.TYPE_ITEM;
         }
     }
+
     @Override
     public int getItemCount() {
         return mList == null ? 1 : mList.size() + 1;
@@ -93,20 +102,33 @@ public class GoodAdapter extends Adapter {
 
     public int getFootString() {
 
-        return isMore?R.string.load_more: R.string.no_more;
+        return isMore ? R.string.load_more : R.string.no_more;
     }
 
-    static class  GoodViewHoder extends ViewHolder {
+    public void addData(ArrayList<NewGoodsBean> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    class GoodViewHoder extends RecyclerView.ViewHolder {
+        @BindView(R.id.niv_good_thumb)
         ImageView ivGoodThumb;
+        @BindView(R.id.tv_good_name)
         TextView tvGoodName;
+        @BindView(R.id.tv_good_price)
         TextView tvGoodPrice;
+        @BindView(R.id.item_good_LL)
+        LinearLayout itemGoodLL;
 
-        public GoodViewHoder(View itemView) {
-            super(itemView);
-            ivGoodThumb = (ImageView) itemView.findViewById(R.id.niv_good_thumb);
-            tvGoodPrice = (TextView) itemView.findViewById(R.id.tv_good_price);
-            tvGoodName= (TextView) itemView.findViewById(R.id.tv_good_name);
+        @OnClick(R.id.item_good_LL)
+        public void onGoodsItemClick() {
+            int goodsId = (int) itemGoodLL.getTag();
+            mContext.startActivity(new Intent(mContext, GoodsDetailsActivity.class)
+                      .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
         }
-
+        GoodViewHoder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 }
