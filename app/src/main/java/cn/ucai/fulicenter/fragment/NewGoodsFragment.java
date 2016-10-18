@@ -43,6 +43,7 @@ public class NewGoodsFragment extends Fragment {
     ArrayList<NewGoodsBean> mList;
     int pageId = 1;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle save) {
         View layout = inflater.inflate(R.layout.fragment_newgoods, container, false);
@@ -59,10 +60,16 @@ public class NewGoodsFragment extends Fragment {
             public void onSuccess(NewGoodsBean[] result) {
                 mSrl.setRefreshing(false);
                 mTvRfresh.setVisibility(View.GONE);
+                mAdapter.setMore(true);
                 L.e("result"+result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     mAdapter.initData(list);
+                    if (list.size()<I.PAGE_SIZE_DEFAULT){
+                        mAdapter.setMore(false);
+                    }else {
+                        mAdapter.setMore(false);
+                    }
                 }
             }
 
@@ -81,7 +88,7 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
                 getResources().getColor(R.color.google_red),
-                getResources().getColor(R.color.google_green)
+                getResources().getColor(R.color.google_yellow)
         );
         GridLayoutManager glm = new GridLayoutManager(mContext, I.COLUM_NUM);
         mRv.setLayoutManager(glm);

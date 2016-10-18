@@ -25,7 +25,16 @@ import cn.ucai.fulicenter.view.FooterViewHolder;
 public class GoodAdapter extends Adapter {
     Context mContext;
     List<NewGoodsBean> mList;
+    boolean isMore;
 
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
+    }
 
     public GoodAdapter(Context context, List<NewGoodsBean> list) {
         mContext = context;
@@ -58,7 +67,8 @@ public class GoodAdapter extends Adapter {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
-
+            FooterViewHolder vh = (FooterViewHolder) holder;
+            vh.tvFooter.setText(getFootString());
         } else {
             GoodViewHoder vh = (GoodViewHoder) holder;
             NewGoodsBean goods = mList.get(position);
@@ -80,6 +90,12 @@ public class GoodAdapter extends Adapter {
     public int getItemCount() {
         return mList == null ? 1 : mList.size() + 1;
     }
+
+    public int getFootString() {
+
+        return isMore?R.string.load_more: R.string.no_more;
+    }
+
     static class  GoodViewHoder extends ViewHolder {
         ImageView ivGoodThumb;
         TextView tvGoodName;
