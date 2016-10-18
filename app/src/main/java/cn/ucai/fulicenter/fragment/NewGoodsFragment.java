@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +25,7 @@ import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.NetDao;
 import cn.ucai.fulicenter.utils.OkHttpUtils;
+import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 /**
  * Created by Administrator on 2016/10/17 0017.
@@ -42,6 +44,7 @@ public class NewGoodsFragment extends Fragment {
     GoodAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
     int pageId = 1;
+    GridLayoutManager glm;
 
 
     @Override
@@ -51,10 +54,57 @@ public class NewGoodsFragment extends Fragment {
         mContext = (MainActivity) getContext();
         initView();
         initData();
+        setListener();
         return layout;
     }
 
+    private void setListener() {
+        setPullUpListener();
+        setPullDownListener();
+    }
+
+    private void setPullDownListener() {
+       mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               mSrl.setRefreshing(true);
+               mTvRfresh.setVisibility(View.VISIBLE);
+               pageId = 1;
+               downloadNewGoods(I.ACTION_PULL_DOWN);
+           }
+       });
+    }
+
+    private void setPullUpListener() {
+     mRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+         @Override
+         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+             super.onScrollStateChanged(recyclerView, newState);
+             int lastPosition = glm.findLastVisibleItemPosition();
+             L.e("newState:"+newState);
+             L.e("lastPosition:"+lastPosition);
+             L.e("isMore:"+mAdapter.isMore());
+             if (newState==RecyclerView.SCROLL_STATE_IDLE
+                     &&lastPosition==mAdapter.getItemCount()-1
+                     &&mAdapter.isMore()){
+                 pageId++;
+                 downloadNewGoods(I.ACTION_PULL_UP);
+             }
+         }
+
+         @Override
+         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+             super.onScrolled(recyclerView, dx, dy);
+             int firstPosition = glm.findFirstVisibleItemPosition();
+             mSrl.setEnabled(firstPosition==0);
+         }
+     });
+    }
+
     private void initData() {
+        downloadNewGoods(I.ACTION_DOWNLOAD);
+    }
+    private void downloadNewGoods(final int action){
         NetDao.downloadNewGoods(mContext,pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>(){
             @Override
             public void onSuccess(NewGoodsBean[] result) {
@@ -64,10 +114,15 @@ public class NewGoodsFragment extends Fragment {
                 L.e("result"+result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    mAdapter.initData(list);
-                    if (list.size()<I.PAGE_SIZE_DEFAULT){
-                        mAdapter.setMore(false);
+                    if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
+                        mAdapter.initData(list);
                     }else {
+                        mAdapter.addData(list);
+                        //mAdapter.setMore(false);
+                    }
+                    if (list.size()<I.PAGE_SIZE_DEFAULT){
+                        mSrl.setRefreshing(false);
+                        mTvRfresh.setVisibility(View.GONE);
                         mAdapter.setMore(false);
                     }
                 }
@@ -77,6 +132,7 @@ public class NewGoodsFragment extends Fragment {
             public void onError(String error) {
                 mSrl.setRefreshing(false);
                 mTvRfresh.setVisibility(View.GONE);
+                mAdapter.setMore(false);
                 CommonUtils.showShortToast(error);
                 L.e("error"+error);
             }
@@ -90,11 +146,12 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_yellow)
         );
-        GridLayoutManager glm = new GridLayoutManager(mContext, I.COLUM_NUM);
+        glm = new GridLayoutManager(mContext, I.COLUM_NUM);
         mRv.setLayoutManager(glm);
         mRv.setHasFixedSize(true);
         mList = new ArrayList<>();
         mAdapter = new GoodAdapter(mContext, mList);
         mRv.setAdapter(mAdapter);
+        mRv.addItemDecoration(new SpaceItemDecoration(12));
     }
 }
