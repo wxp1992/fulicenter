@@ -31,7 +31,7 @@ import cn.ucai.fulicenter.view.SpaceItemDecoration;
  * Created by Administrator on 2016/10/17 0017.
  */
 
-public class NewGoodsFragment extends Fragment {
+public class NewGoodsFragment extends BaseFragment {
 
     @BindView(R.id.tv_rfresh)
     TextView mTvRfresh;
@@ -52,13 +52,12 @@ public class NewGoodsFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_newgoods, container, false);
         ButterKnife.bind(this, layout);
         mContext = (MainActivity) getContext();
-        initView();
-        initData();
-        setListener();
+        super.onCreateView(inflater, container, save);
         return layout;
     }
 
-    private void setListener() {
+    @Override
+    protected void setListener() {
         setPullUpListener();
         setPullDownListener();
     }
@@ -101,7 +100,8 @@ public class NewGoodsFragment extends Fragment {
      });
     }
 
-    private void initData() {
+    @Override
+    protected void initData() {
         downloadNewGoods(I.ACTION_DOWNLOAD);
     }
     private void downloadNewGoods(final int action){
@@ -139,7 +139,8 @@ public class NewGoodsFragment extends Fragment {
         });
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         mSrl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
