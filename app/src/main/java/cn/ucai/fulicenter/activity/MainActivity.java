@@ -15,7 +15,7 @@ import cn.ucai.fulicenter.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter.utils.L;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     RadioButton mrbNewGood;
     RadioButton mrbBoutique;
     RadioButton mrbCategory;
@@ -31,11 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
         L.i("MainActivity onCreate");
-        initView();
-      initFragment();
     }
 
     private void initFragment() {
@@ -52,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 .show(mNewGoodsFragment)
                 .commit();
     }
-
-    private void initView() {
+    @Override
+    protected void initView() {
         mrbNewGood = (RadioButton) findViewById(R.id.rbGoodNews);
         mrbBoutique = (RadioButton) findViewById(R.id.rbBoutique);
         mrbCategory = (RadioButton) findViewById(R.id.rbCategory);
@@ -66,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         mrbTabs[2]=mrbCategory;
         mrbTabs[3]=mrbCart;
         mrbTabs[4]=mrbContact;
+
+    }
+
+    @Override
+    protected void initData() {
+        initFragment();
+    }
+
+    @Override
+    protected void setListener() {
 
     }
 
@@ -112,5 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 mrbTabs[i].setChecked(false);
             }
         }
+    }
+    public void onBackPressed() {
+        finish();
     }
 }

@@ -23,7 +23,7 @@ import cn.ucai.fulicenter.utils.OkHttpUtils;
  * Created by Administrator on 2016/10/18 0018.
  */
 
-public class GoodsDetailsActivity extends AppCompatActivity {
+public class GoodsDetailsActivity extends BaseActivity {
     @BindView(R.id.backClickArea)
     LinearLayout backClickArea;
     @BindView(R.id.tvgoodenglish)
@@ -44,7 +44,6 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     GoodsDetailsActivity mContext;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
@@ -53,15 +52,15 @@ public class GoodsDetailsActivity extends AppCompatActivity {
             finish();
         }
         mContext = this;
-        initView();
-        initData();
-        setListener();
+        super.onCreate(savedInstanceState);
+
+    }
+    @Override
+    protected void setListener() {
     }
 
-    private void setListener() {
-    }
-
-    private void initData() {
+    @Override
+    protected void initData() {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
@@ -109,7 +108,8 @@ public class GoodsDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
     }
 
     @OnClick(R.id.backClickArea)
