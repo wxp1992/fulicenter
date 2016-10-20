@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -16,6 +17,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/20 0020.
@@ -102,10 +104,17 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) view.getTag();
         }
-        CategoryChildBean child = getChild(groupPosition, childPosition);
+        final CategoryChildBean child = getChild(groupPosition, childPosition);
         if (child != null) {
             ImageLoader.downloadImg(mContext, holder.ivCategoryChildThumb, child.getImageUrl());
             holder.tvCatogryChildName.setText(child.getName());
+            holder.layoutCatogryChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("onclick","id="+child.getId());
+                    MFGT.gotoCategoryChildActivity(mContext,child.getId());
+                }
+            });
         }
         return view;
     }
