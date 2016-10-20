@@ -26,6 +26,8 @@ import cn.ucai.fulicenter.utils.OkHttpUtils;
  */
 
 public class CategoryFragment extends BaseFragment {
+    private  static  final  String TAG=CategoryFragment.class.getSimpleName();
+
     @BindView(R.id.elv_category)
     ExpandableListView mElvCategory;
 
