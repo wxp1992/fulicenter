@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
-import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ConvertUtils;
@@ -40,23 +40,25 @@ public class CategoryChildActivity extends BaseActivity {
     int pageId = 1;
     GridLayoutManager glm;
     int catId;
+    @BindView(R.id.btn_sort_price)
+    Button btnSortPrice;
+    @BindView(R.id.btn_sort_addtime)
+    Button btnSortAddtime;
+    boolean addTimeAsc = false;
+    boolean priceAsc = false;
+    int sortBy = I.SORT_BY_ADDTIME_DESC;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        L.e("onCreate++++++++++++++++1");
         setContentView(R.layout.activity_category_child);
-        L.e("onCreate++++++++++++++++2");
         ButterKnife.bind(this);
-        L.e("onCreate++++++++++++++++3");
         mContext = this;
-        L.e("onCreate++++++++++++++++4");
         mList = new ArrayList<>();
-        L.e("onCreate++++++++++++++++5");
-        mAdapter = new GoodAdapter(mContext,mList);
-        L.e("onCreate++++++++++++++++6");
-        catId=getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
-        L.e("catid+"+catId);
+        mAdapter = new GoodAdapter(mContext, mList);
+        catId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
+        L.e("catid+" + catId);
         if (catId == 0) {
-            //finish();
+            finish();
         }
         super.onCreate(savedInstanceState);
     }
@@ -100,9 +102,9 @@ public class CategoryChildActivity extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastPosition = glm.findLastVisibleItemPosition();
-                if (newState==RecyclerView.SCROLL_STATE_IDLE
-                        &&lastPosition==mAdapter.getItemCount()-1
-                        &&mAdapter.isMore()){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastPosition == mAdapter.getItemCount() - 1
+                        && mAdapter.isMore()) {
                     pageId++;
                     downloadCategoryGoods(I.ACTION_PULL_UP);
                 }
@@ -112,7 +114,7 @@ public class CategoryChildActivity extends BaseActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int firstPosition = glm.findFirstVisibleItemPosition();
-                srl.setEnabled(firstPosition==0);
+                srl.setEnabled(firstPosition == 0);
             }
         });
     }
@@ -121,14 +123,15 @@ public class CategoryChildActivity extends BaseActivity {
     protected void initData() {
         downloadCategoryGoods(I.ACTION_DOWNLOAD);
     }
-    private void downloadCategoryGoods(final int action){
-        NetDao.downloadCategoryGoods(mContext,catId,pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>(){
+
+    private void downloadCategoryGoods(final int action) {
+        NetDao.downloadCategoryGoods(mContext, catId, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 srl.setRefreshing(false);
                 mTvRfresh.setVisibility(View.GONE);
                 mAdapter.setMore(true);
-                L.e("result"+result);
+                L.e("result" + result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
@@ -150,7 +153,7 @@ public class CategoryChildActivity extends BaseActivity {
                 mTvRfresh.setVisibility(View.GONE);
                 mAdapter.setMore(false);
                 CommonUtils.showShortToast(error);
-                L.e("error"+error);
+                L.e("error" + error);
             }
         });
     }
@@ -158,5 +161,28 @@ public class CategoryChildActivity extends BaseActivity {
     @OnClick(R.id.backClickArea)
     public void onClick() {
         MFGT.finish(this);
+    }
+
+    @OnClick({R.id.btn_sort_price, R.id.btn_sort_addtime})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_sort_price:
+                if (priceAsc) {
+                    sortBy = I.SORT_BY_PRICE_ASC;
+                } else {
+                    sortBy = I.SORT_BY_PRICE_DESC;
+                }
+                priceAsc = !priceAsc;
+                break;
+            case R.id.btn_sort_addtime:
+                if (addTimeAsc) {
+                    sortBy = I.SORT_BY_ADDTIME_ASC;
+                } else {
+                    sortBy = I.SORT_BY_ADDTIME_DESC;
+                }
+                addTimeAsc = !addTimeAsc;
+                break;
+        }
+        mAdapter.setSoryBy(sortBy);
     }
 }
