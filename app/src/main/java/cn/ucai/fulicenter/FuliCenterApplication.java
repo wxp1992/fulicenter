@@ -10,6 +10,7 @@ public class FuLiCenterApplication extends Application {
     public static FuLiCenterApplication application;
     private static FuLiCenterApplication instance;
 
+    public static String username;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,5 +24,6 @@ public class FuLiCenterApplication extends Application {
         }
         return instance;
     }
+
 
 }

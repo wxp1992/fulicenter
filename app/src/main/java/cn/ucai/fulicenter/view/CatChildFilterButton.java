@@ -25,6 +25,7 @@ import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.L;
 
 /**
  * 显示分类中当前所属小类的列表
@@ -129,19 +130,27 @@ public class CatChildFilterButton extends Button {
             if(layout==null){
                 layout= View.inflate(context, R.layout.item_cat_filter, null);
                 holder=new ViewChildHolder();
-                holder.layoutItem=(RelativeLayout) layout.findViewById(R.id.layout_catogry_child);
-                holder.ivThumb=(ImageView) layout.findViewById(R.id.ivCategoryChildThumb);
-                holder.tvChildName=(TextView) layout.findViewById(R.id.tvCatogryChildName);
+                holder.layoutItem=(RelativeLayout) layout.findViewById(R.id.layout_filter);
+                L.e(" holder.layoutItem="+ holder.layoutItem);
+                holder.ivThumb=(ImageView) layout.findViewById(R.id.iv_filter);
+                L.e(" holder.ivThumb="+ holder.ivThumb);
+                holder.tvChildName=(TextView) layout.findViewById(R.id.tv_filter);
+                L.e(" holder.tvChildName123="+ holder.tvChildName);
                 layout.setTag(holder);
             }else{
                 holder=(ViewChildHolder) layout.getTag();
             }
             final CategoryChildBean child =getItem(position);
             String name=child.getName();
-            holder.tvChildName.setText(name);
+            L.e(" holder.tvChildName321="+ holder.tvChildName);
+            if(holder.tvChildName!=null) {
+                holder.tvChildName.setText(name);
+            }
             String imgUrl=child.getImageUrl();
+            L.e(" holder.ivThumb321="+ holder.ivThumb);
             ImageLoader.downloadImg(context,holder.ivThumb,imgUrl);
 
+            L.e(" holder.layoutItem321="+ holder.layoutItem);
             holder.layoutItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -155,7 +155,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     class ChildViewHolder {
         @BindView(R.id.ivCategoryChildThumb)
         ImageView ivCategoryChildThumb;
-        @BindView(R.id.tvCatogryChildName)
+        @BindView(R.id.tv_category_child_name)
         TextView tvCatogryChildName;
         @BindView(R.id.layout_catogry_child)
         RelativeLayout layoutCatogryChild;
