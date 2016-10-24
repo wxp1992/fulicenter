@@ -10,10 +10,12 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
+import cn.ucai.fulicenter.dao.UserDao;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
@@ -90,7 +92,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(String s) {
                Result result= ResultUtils.getResultFromJson(s, UserAvatar.class);
-                pd.dismiss();
                         L.e(TAG, "result=" + result);
                 if (result == null) {
                     CommonUtils.showLongToast(R.string.login_fail);
@@ -98,7 +99,14 @@ public class LoginActivity extends BaseActivity {
                     if (result.isRetMsg()) {
                         UserAvatar user = (UserAvatar) result.getRetData();
                         L.e(TAG,"useravatar"+user);
-                        MFGT.finish(mContext);
+                        UserDao dao = new UserDao(mContext);
+                        boolean isSuccess = dao.saveUser(user);
+                        if (isSuccess) {
+                            FuLiCenterApplication.setUser(user);
+                            MFGT.finish(mContext);
+                        } else {
+                            CommonUtils.showLongToast(R.string.user_database_error);
+                        }
                     } else {
                         if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {
                             CommonUtils.showLongToast(R.string.login_fail_unknow_user);
@@ -109,6 +117,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     }
                 }
+                pd.dismiss();
             }
 
             @Override
