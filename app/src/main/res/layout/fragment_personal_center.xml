@@ -30,6 +30,9 @@
             android:layout_toLeftOf="@+id/iv_person_center_msg"
             android:textColor="@color/white"/>
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -61,7 +64,7 @@
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
                 android:layout_toRightOf="@+id/iv_user_avatar"
-                android:text="WxinP"
+                android:text="布局里的名字"
                 android:textColor="@color/white" />
             <ImageView
                 android:id="@+id/iv_user_qcode"
@@ -349,5 +352,6 @@
     </LinearLayout>
 
 </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
