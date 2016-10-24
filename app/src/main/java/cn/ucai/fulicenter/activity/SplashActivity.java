@@ -9,6 +9,7 @@ import android.os.Bundle;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.UserAvatar;
+import cn.ucai.fulicenter.dao.SharePrefrenceUtils;
 import cn.ucai.fulicenter.dao.UserDao;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
@@ -34,13 +35,17 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 UserAvatar user = FuLiCenterApplication.getUser();
                 L.e(TAG, "fulicenter,user=" + user);
-                if(user==null){
+                String username = SharePrefrenceUtils.getInstance(mContext).getUser();
+                L.e(TAG,"fulicenter,username="+username);
+                if (user == null && username != null) {
                     UserDao dao = new UserDao(mContext);
-                    user = dao.getUser("a9527010");
+                    user = dao.getUser(username);
                     L.e(TAG, "database,user=" + user);
+                    if (user != null) {
+                        FuLiCenterApplication.setUser(user);
+                    }
                 }
                 MFGT.gotoMainActivity(SplashActivity.this);
-                L.e("gotoMainactivity");
                     finish();
             }
     },sleepTime);
