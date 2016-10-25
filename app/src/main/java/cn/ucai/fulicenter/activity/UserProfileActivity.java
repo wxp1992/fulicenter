@@ -149,6 +149,7 @@ public class UserProfileActivity extends BaseActivity {
 
             @Override
             public void onError(String error) {
+                pd.dismiss();
                 CommonUtils.showLongToast(R.string.update_user_avatar_fail);
                 L.e("error="+error);
             }
