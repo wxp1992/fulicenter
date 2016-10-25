@@ -15,7 +15,8 @@
         <RelativeLayout
             android:id="@+id/layout_user_profile_avater"
             android:layout_width="fill_parent"
-            android:layout_height="88dp">
+            android:layout_height="88dp"
+            android:background="@color/white">
             <ImageView
                 android:id="@+id/user_arrow0"
                 android:src="@drawable/right_arrow_icon"
@@ -35,13 +36,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="头像"
-                android:textSize="30sp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
                 android:layout_centerVertical="true" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/layout_user_profile_username"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:background="@color/white">
             <ImageView
                 android:id="@+id/user_arrow1"
                 android:src="@drawable/right_arrow_icon"
@@ -55,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="用户名"
-                android:textSize="30sp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
                 android:layout_centerVertical="true"/>
             <TextView
                 android:id="@+id/tv_user_profile_name"
@@ -69,8 +74,10 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/layout_user_profile_nickname"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:background="@color/white">
             <ImageView
                 android:id="@+id/user_arrow2"
                 android:src="@drawable/right_arrow_icon"
@@ -84,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="昵称"
-                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 android:layout_centerVertical="true"/>
             <TextView
                 android:id="@+id/tv_user_profile_nick"
@@ -101,8 +109,8 @@
     <Button
         android:id="@+id/btn_logout"
         android:layout_alignParentBottom="true"
-        android:text="退出"
-
+        android:text="退出登陆"
+        android:background="@color/orange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </RelativeLayout>
