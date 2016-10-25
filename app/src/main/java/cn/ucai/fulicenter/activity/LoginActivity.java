@@ -23,6 +23,7 @@ import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.utils.NetDao;
 import cn.ucai.fulicenter.utils.OkHttpUtils;
 import cn.ucai.fulicenter.utils.ResultUtils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -44,7 +45,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        DisplayUtils.initBackWithTitle(mContext,getResources().getString(R.string.login));
     }
 
     @Override
