@@ -31,6 +31,9 @@
     <string name="update_fail">Update Fail</string>
     <string name="update_nick_fail_unmodify">Update User Nick</string>
     <string name="update_user_nick_success">Update User Nick Success</string>
+    <string name="update_user_avatar">update user avatar</string>
+    <string name="update_user_avatar_fail">update user avatar fail</string>
+    <string name="update_user_avatar_success">update user avatar success</string>
 
 
 </resources>

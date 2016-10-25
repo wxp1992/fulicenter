@@ -2,6 +2,8 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
+import cn.ucai.fulicenter.I;
+
 /**
  * Created by Administrator on 2016/10/13 0013.
  */
@@ -62,7 +64,7 @@ public class UserAvatar implements Serializable {
     }
 
     public String getMavatarSuffix() {
-        return mavatarSuffix;
+        return mavatarSuffix!=null?mavatarSuffix: I.AVATAR_SUFFIX_JPG;
     }
 
     public void setMavatarSuffix(String mavatarSuffix) {
