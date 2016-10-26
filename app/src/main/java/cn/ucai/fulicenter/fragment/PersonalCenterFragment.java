@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.dao.UserDao;
@@ -44,6 +45,8 @@ public class PersonalCenterFragment extends BaseFragment {
     UserAvatar user = null;
     @BindView(R.id.center_user_order_lis)
     GridView mCenterUserOrderLis;
+    @BindView(R.id.tv_collect_count)
+    TextView mTvCollectCount;
 
     @Nullable
     @Override
@@ -108,6 +111,7 @@ public class PersonalCenterFragment extends BaseFragment {
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mIvUserAvatar);
             mTvUserName.setText(user.getMuserNick());
             syncUserInfo();
+            syncCollectsCount();
         }
     }
 
@@ -139,6 +143,25 @@ public class PersonalCenterFragment extends BaseFragment {
             @Override
             public void onError(String error) {
 
+            }
+        });
+    }
+
+    private void syncCollectsCount() {
+        NetDao.getCollectsCount(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if (result != null && result.isSuccess()) {
+                    mTvCollectCount.setText(result.getMsg());
+                } else {
+                    mTvCollectCount.setText(String.valueOf(0));
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                mTvCollectCount.setText(String.valueOf(0));
+                L.e(TAG,"error="+error);
             }
         });
     }
