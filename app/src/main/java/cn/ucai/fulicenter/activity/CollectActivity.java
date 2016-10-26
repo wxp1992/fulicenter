@@ -1,5 +1,10 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.midi.MidiReceiver;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -73,6 +78,9 @@ public class CollectActivity extends BaseActivity {
     protected void setListener() {
         setPullUpListener();
         setPullDownListener();
+        //利用intent传递消息（广播后加的）
+        IntentFilter filter = new IntentFilter("update_collect");
+        registerReceiver(mReceiver, filter);
     }
 
     private void setPullDownListener() {
@@ -152,12 +160,32 @@ public class CollectActivity extends BaseActivity {
             finish();
         }
         downloadCollects(I.ACTION_DOWNLOAD);
+    }
+    updateCollectReceiver mReceiver;
+    class updateCollectReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int goodsId = intent.getIntExtra(I.Collect.GOODS_ID,0);
+            if(goodsId!=0){
+                CollectBean bean = new CollectBean();
+                bean.setGoodsId(goodsId);
+                mAdapter.remove(bean);
+                L.e("delete..."+goodsId);
+            }
+        }
     }
 
     @Override
-    protected void onResume() {
+  /*  protected void onResume() {
         super.onResume();
         initData();
+    }*/
+    //后加的方法
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
     }
 }

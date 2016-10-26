@@ -121,6 +121,13 @@ public class CollectsAdapter extends Adapter {
         notifyDataSetChanged();
     }
 
+    //broadcast
+    public void remove(CollectBean bean) {
+        mList.remove(bean);
+        notifyDataSetChanged();
+    }
+
+
     class CollectsViewHoder extends ViewHolder {
         @BindView(R.id.niv_good_thumb)
         ImageView ivGoodThumb;
