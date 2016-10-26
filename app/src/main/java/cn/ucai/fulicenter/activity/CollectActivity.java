@@ -93,9 +93,6 @@ public class CollectActivity extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastPosition = glm.findLastVisibleItemPosition();
-//             L.e("newState:"+newState);
-//             L.e("lastPosition:"+lastPosition);
-//             L.e("isMore:"+mAdapter.isMore());
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastPosition == mAdapter.getItemCount() - 1
                         && mAdapter.isMore()) {
@@ -158,4 +155,9 @@ public class CollectActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
 }
