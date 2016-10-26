@@ -161,8 +161,13 @@ public class PersonalCenterFragment extends BaseFragment {
             @Override
             public void onError(String error) {
                 mTvCollectCount.setText(String.valueOf(0));
-                L.e(TAG,"error="+error);
+                L.e(TAG, "error=" + error);
             }
         });
+    }
+
+    @OnClick(R.id.layout_center_collect)
+    public void gotoCollectList() {
+        MFGT.gotoCollects(mContext);
     }
 }
