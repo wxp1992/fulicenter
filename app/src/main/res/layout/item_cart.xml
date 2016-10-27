@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="(1)"
-        android:textColor="#00aeff"
+        android:textColor="#0090ff"
         android:textSize="18dp"/>
     <ImageView
         android:id="@+id/ivReduceCart"
@@ -71,7 +71,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/ivAddCart"
         android:layout_marginRight="5dp"
-        android:text="￥219"
+        android:text="￥222"
         android:textColor="#f90"
         android:textSize="16dp"/>
 </RelativeLayout>
