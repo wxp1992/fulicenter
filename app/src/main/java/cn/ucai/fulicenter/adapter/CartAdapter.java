@@ -23,8 +23,11 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.utils.NetDao;
+import cn.ucai.fulicenter.utils.OkHttpUtils;
 
 
 public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
@@ -61,6 +64,7 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
                 mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
             }
         });
+        holder.mIvAddCart.setTag(position);
     }
 
     @Override
@@ -82,7 +86,7 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
         notifyDataSetChanged();
     }
 
-    class CartViewHolder extends ViewHolder{
+    class CartViewHolder extends ViewHolder {
         @BindView(R.id.cbSelect)
         CheckBox mCbSelect;
         @BindView(R.id.ivGoodThumb)
@@ -102,5 +106,54 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
             super(view);
             ButterKnife.bind(this, view);
         }
+
+        @OnClick(R.id.ivAddCart)
+        public void addCart() {
+            final int position = (int) mIvAddCart.getTag();
+            CartBean cart = mList.get(position);
+            NetDao.updateCart(mContext, cart.getId(), cart.getCount() + 1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result != null && result.isSuccess()) {
+                        mList.get(position).setCount(mList.get(position).getCount()+1);
+                        mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
+                        mTvCartCount.setText("("+(mList.get(position).getCount())+")");
+
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
+
+        @OnClick(R.id.ivReduceCart)
+        public void delCart() {
+            final int position = (int) mIvAddCart.getTag();
+            CartBean cart = mList.get(position);
+            if (cart.getCount() > 1) {
+                NetDao.updateCart(mContext, cart.getId(), cart.getCount() - 1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            mList.get(position).setCount(mList.get(position).getCount() - 1);
+                            mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART));
+                            mTvCartCount.setText("(" + (mList.get(position).getCount()) + ")");
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            } else {
+
+            }
+        }
     }
+
 }
