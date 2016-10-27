@@ -25,6 +25,7 @@ import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.NetDao;
 import cn.ucai.fulicenter.utils.OkHttpUtils;
+import cn.ucai.fulicenter.utils.ResultUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 
@@ -77,15 +78,16 @@ public class CartFragment extends BaseFragment {
     private void downloadCart() {
         UserAvatar user = FuLiCenterApplication.getUser();
         if (user != null) {
-            NetDao.downloadCart(mContext,user.getMuserName(), new OkHttpUtils.OnCompleteListener<CartBean[]>() {
+            NetDao.downloadCart(mContext,user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
                 @Override
-                public void onSuccess(CartBean[] result) {
-                    L.e(TAG,"result="+result);
+                public void onSuccess(String s) {
+                    ArrayList<CartBean> list = ResultUtils.getCartFromJson(s);
+                    L.e(TAG,"result="+list);
                     srl.setRefreshing(false);
                     tvRfresh.setVisibility(View.GONE);
-                    L.e("result" + result);
-                    if (result != null && result.length > 0) {
-                        ArrayList<CartBean> list = ConvertUtils.array2List(result);
+                    L.e("result" + list);
+                    if (list != null && list.size() > 0) {
+                        L.e(TAG,"List[0]="+list.get(0));
                         mAdapter.initData(list);
                     }
                 }
