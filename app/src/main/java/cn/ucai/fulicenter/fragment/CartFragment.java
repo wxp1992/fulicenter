@@ -60,7 +60,7 @@ public class CartFragment extends BaseFragment {
     TextView mTvNothing;
 
     updateCartReceiver mReceiver;
-
+    String cartIds = "";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,7 +146,12 @@ public class CartFragment extends BaseFragment {
     }
 
     @OnClick(R.id.tv_cart_buy)
-    public void onClick() {
+    public void buy() {
+        if (cartIds != null && !cartIds.equals("") && cartIds.length() > 0) {
+            MFGT.gotoBuy(mContext, cartIds);
+        } else {
+            CommonUtils.showLongToast(R.string.order_nothing);
+        }
     }
 
     private void setCartLayout(boolean hasCart) {
@@ -157,11 +162,13 @@ public class CartFragment extends BaseFragment {
     }
 
     private void sumPrice() {
+        cartIds = "";
         int sumPrice = 0;
         int ranPrice = 0;
         if (mList != null && mList.size() > 0) {
             for (CartBean c : mList) {
                 if (c.isChecked()) {
+                    cartIds += c.getId() + ",";
                     sumPrice += getPrice(c.getGoods().getCurrencyPrice())*c.getCount();
                     ranPrice += getPrice(c.getGoods().getRankPrice())*c.getCount();
                 }
@@ -169,7 +176,7 @@ public class CartFragment extends BaseFragment {
             mTvCartSumPrice.setText("合计：￥" + Double.valueOf(ranPrice));
             mTvSavePrice.setText("节省：￥0"+Double.valueOf(sumPrice-ranPrice));
         } else {
-//            setCartLayout(false);
+            cartIds = "";
             mTvCartSumPrice.setText("合计：￥0");
             mTvSavePrice.setText("节省：￥0");
         }

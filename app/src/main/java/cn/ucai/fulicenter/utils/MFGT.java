@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import cn.ucai.fulicenter.activity.CollectActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.LoginActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
+import cn.ucai.fulicenter.activity.OrderActivity;
 import cn.ucai.fulicenter.activity.RegisterActivity;
 import cn.ucai.fulicenter.activity.UpdateNickActivity;
 import cn.ucai.fulicenter.activity.UserProfileActivity;
@@ -92,5 +94,10 @@ public class MFGT {
     }
     public static void gotoCollects(Activity context) {
         startActivity(context, CollectActivity.class);
+    }
+
+    public static void gotoBuy(Activity context, String cartIds) {
+        Intent intent = new Intent(context, OrderActivity.class).putExtra(I.Cart.ID, cartIds);
+        startActivity(context, intent);
     }
 }

@@ -62,10 +62,10 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, mNewGoodsFragment)
-//                .add(R.id.fragment_container, mBoutiqueFragment)
-//                .add(R.id.fragment_container, mCategoryFragment)
-//                .hide(mBoutiqueFragment)
-//                .hide(mCategoryFragment)
+                .add(R.id.fragment_container, mBoutiqueFragment)
+                .add(R.id.fragment_container, mCategoryFragment)
+                .hide(mBoutiqueFragment)
+                .hide(mCategoryFragment)
                 .show(mNewGoodsFragment)
                 .commit();
     }
