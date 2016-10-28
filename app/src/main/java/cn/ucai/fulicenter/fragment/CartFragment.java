@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -147,7 +148,7 @@ public class CartFragment extends BaseFragment {
     public void onClick() {
     }
 
-    public void setCartLayout(boolean hasCart) {
+    private void setCartLayout(boolean hasCart) {
         mLayoutCart.setVisibility(hasCart ? View.VISIBLE : View.GONE);
         mTvNothing.setVisibility(hasCart ? View.GONE : View.VISIBLE);
         rv.setVisibility(hasCart?View.VISIBLE:View.GONE);
@@ -167,6 +168,7 @@ public class CartFragment extends BaseFragment {
             mTvCartSumPrice.setText("合计：￥" + Double.valueOf(ranPrice));
             mTvSavePrice.setText("节省：￥0"+Double.valueOf(sumPrice-ranPrice));
         } else {
+//            setCartLayout(false);
             mTvCartSumPrice.setText("合计：￥0");
             mTvSavePrice.setText("节省：￥0");
         }
@@ -179,7 +181,9 @@ public class CartFragment extends BaseFragment {
     class updateCartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            L.e(TAG, "updateCartReceiver...");
             sumPrice();
+            setCartLayout(mList!=null&&mList.size()>0);
         }
     }
 
