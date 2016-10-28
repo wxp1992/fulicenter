@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -218,6 +219,7 @@ public class GoodsDetailsActivity extends BaseActivity {
             mIvcollect.setImageResource(R.mipmap.bg_collect_in);
         }
     }
+
     @OnClick(R.id.ivgoodshare)
     public void showShare() {
         ShareSDK.initSDK(this);
@@ -249,4 +251,29 @@ public class GoodsDetailsActivity extends BaseActivity {
         // 启动分享GUI
         oks.show(this);
     }
+
+    @OnClick(R.id.ivgoodcart)
+    public void addCart() {
+        UserAvatar user = FuLiCenterApplication.getUser();
+        if (user != null) {
+                NetDao.addCart(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            CommonUtils.showLongToast(R.string.add_goods_success);
+                        } else {
+                            CommonUtils.showLongToast(R.string.add_goods_fail);
+                        }
+                    }
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showLongToast(R.string.add_goods_fail);
+                        L.e("error="+error);
+                    }
+                });
+        } else {
+            MFGT.gotoLogin(mContext);
+        }
+    }
 }
+

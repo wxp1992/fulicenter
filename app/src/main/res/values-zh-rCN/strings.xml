@@ -36,6 +36,8 @@
     <string name="update_user_avatar_success">u更新用户头像成功</string>
     <string name="collect_title">收藏的宝贝</string>
     <string name="delete_collect_fail">添加收藏失败</string>
+    <string name="add_goods_success">添加宝贝成功</string>
+    <string name="add_goods_fail">添加宝贝失败</string>
 
 
 </resources>

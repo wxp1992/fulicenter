@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity {
         mrbCategory = (RadioButton) findViewById(R.id.rbCategory);
         mrbCart = (RadioButton) findViewById(R.id.rbCart);
         mrbContact = (RadioButton) findViewById(R.id.rbContact);
-        tvCartHint = (TextView) findViewById(R.id.tvCartHint);
         mrbTabs=new RadioButton[5];
         mrbTabs[0]=mrbNewGood;
         mrbTabs[1]=mrbBoutique;

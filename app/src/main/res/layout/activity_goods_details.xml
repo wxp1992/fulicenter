@@ -35,14 +35,6 @@
                 android:layout_alignParentRight="true"
                 android:padding="5dp"
                 android:src="@mipmap/bg_cart_selected"/>
-            <TextView
-                android:id="@+id/tvcartcount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:textColor="#f00"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"/>
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
