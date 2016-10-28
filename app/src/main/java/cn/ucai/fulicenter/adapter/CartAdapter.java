@@ -98,6 +98,12 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
             ButterKnife.bind(this, view);
         }
 
+        @OnClick({R.id.ivGoodThumb, R.id.tvGoodName, R.id.tvGoodPrice})
+        public void gotoDetail() {
+            final int position = (int) mIvAddCart.getTag();
+            CartBean cart = mList.get(position);
+            MFGT.gotoGoodsDetailsActivity(mContext,cart.getGoodsId());
+        }
         @OnClick(R.id.ivAddCart)
         public void addCart() {
             final int position = (int) mIvAddCart.getTag();
