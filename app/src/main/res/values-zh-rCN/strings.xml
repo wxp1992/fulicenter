@@ -39,6 +39,7 @@
     <string name="add_goods_success">添加宝贝成功</string>
     <string name="add_goods_fail">添加宝贝失败</string>
     <string name="order_nothing">你还没有添加任何宝贝</string>
+    <string name="confirm_order">确认添加</string>
 
 
 </resources>
